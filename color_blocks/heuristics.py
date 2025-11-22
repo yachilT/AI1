@@ -1,13 +1,25 @@
-from color_blocks_state import color_blocks_state
+from color_blocks_state import color_blocks_state, init_goal_for_search
 
 # you can add helper functions and params
+global_goal_blocks = None
 
-
+def is_match(block1, block2, goal_blocks):
+    goal_pairs = list((goal_blocks[i], goal_blocks[i+1]) for i in range(len(goal_blocks)-1))
+    for color1 in block1:
+        for color2 in block2:
+            if (color1, color2) in goal_pairs or (color2, color1) in goal_pairs:
+                return 1
+    return 0
 def init_goal_for_heuristics(goal_blocks):
-    pass
+    global global_goal_blocks
+    global_goal_blocks = list(map(lambda s: int(s), goal_blocks.split(",")))
 
 def base_heuristic(_color_blocks_state):
-    return 0
+    blocks = _color_blocks_state.blocks_states
+    goal_blocks = global_goal_blocks
+    
+    return sum(is_match(blocks[i], blocks[i+1], goal_blocks) for i in range(len(blocks)-1))
+
 
 def advanced_heuristic(_color_blocks_state):
     return 0
