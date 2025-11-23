@@ -10,6 +10,7 @@ def is_match(block1, block2, goal_blocks):
             if (color1, color2) in goal_pairs or (color2, color1) in goal_pairs:
                 return 0
     return 1
+
 def init_goal_for_heuristics(goal_blocks):
     global global_goal_blocks
     global_goal_blocks = list(map(lambda s: int(s), goal_blocks.split(",")))
@@ -20,7 +21,14 @@ def base_heuristic(_color_blocks_state):
     
     return sum(is_match(blocks[i], blocks[i+1], goal_blocks) for i in range(len(blocks)-1))
 
-
-def advanced_heuristic(_color_blocks_state):
+def get_num_spins():
     pass
+def advanced_heuristic(_color_blocks_state):
+    blocks = _color_blocks_state.block_states
+    goal_blocks = global_goal_blocks
+
+
+    
+    return sum(is_match(blocks[i], blocks[i+1], goal_blocks) for i in range(len(blocks)-1))
+
 
