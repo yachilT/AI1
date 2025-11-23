@@ -1,6 +1,6 @@
 
 def init_goal_for_search(goal_blocks):
-    color_blocks_state.global_goal_blocks = list(map(lambda s: int(s), goal_blocks.split(",")))
+    color_blocks_state.global_goal_blocks = list(map(lambda s: int(s), goal_blocks.replace(" ", "").split(",")))
 
 
 class color_blocks_state:
@@ -11,7 +11,7 @@ class color_blocks_state:
     def __init__(self, blocks_str=None, blocks_list=None, **kwargs):
         # you can use the init function for several purposes
         if blocks_str:
-            self.blocks_states = list(map(lambda s: tuple(map(int, s.split(','))), blocks_str[1:-1].split("),(")))
+            self.blocks_states = list(map(lambda s: tuple(map(int, s.split(','))), blocks_str.replace(" ", "")[1:-1].split("),(")))
         
         if blocks_list:
             self.blocks_states = blocks_list
@@ -37,17 +37,14 @@ class color_blocks_state:
     
     def get_neighbors(self):
         # return list of (neighbor_state, edge_cost) pairs
-        neighbors = []
         blocks_count = len(self.blocks_states)
-        for i in range(blocks_count):
-            neighbors.append(self.spin(i))
-        for i in range(blocks_count - 1):
-            neighbors.append(self.flip(i))
+
+        neighbors = [self.spin(i) for i in range(len(blocks_count))] + [self.flip(i) for i in range(blocks_count - 1)]
         return zip(neighbors, [1] * len(neighbors))
         
     # for debugging states
     def get_state_str(self):
-        return ",".join(map(lambda s: f"({s[0]},{s[1]})", self.blocks_states))
+        return ",".join(map(lambda s: f"({s[0]} ,{s[1]})", self.blocks_states))
 
     def __hash__(self):
         return hash(self.get_state_str())
