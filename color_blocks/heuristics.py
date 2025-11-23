@@ -21,8 +21,7 @@ def base_heuristic(_color_blocks_state):
     
     return sum(is_match(blocks[i], blocks[i+1], goal_blocks) for i in range(len(blocks)-1))
 
-def get_num_spins():
-    pass
+
 def advanced_heuristic(_color_blocks_state):
     global global_goal_blocks
     h_base = base_heuristic(_color_blocks_state)
