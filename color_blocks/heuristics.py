@@ -8,8 +8,8 @@ def is_match(block1, block2, goal_blocks):
     for color1 in block1:
         for color2 in block2:
             if (color1, color2) in goal_pairs or (color2, color1) in goal_pairs:
-                return 1
-    return 0
+                return 0
+    return 1
 def init_goal_for_heuristics(goal_blocks):
     global global_goal_blocks
     global_goal_blocks = list(map(lambda s: int(s), goal_blocks.split(",")))
@@ -22,5 +22,5 @@ def base_heuristic(_color_blocks_state):
 
 
 def advanced_heuristic(_color_blocks_state):
-    return 0
+    pass
 
