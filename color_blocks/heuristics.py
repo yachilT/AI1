@@ -22,5 +22,11 @@ def base_heuristic(_color_blocks_state):
 
 
 def advanced_heuristic(_color_blocks_state):
-    pass
-
+    global global_goal_blocks
+    h_base = base_heuristic(_color_blocks_state)
+    
+    blocks = _color_blocks_state.blocks_states
+    for i in range(len(blocks)):
+        if blocks[i][0] not in global_goal_blocks:
+            h_base += 1  # Penalty for blocks with colors not in the goal
+    return h_base
