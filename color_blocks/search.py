@@ -3,37 +3,52 @@ from color_blocks_state import color_blocks_state
 
 
 def create_open_set():
-    pass
+    return set()
 
 
 def create_closed_set():
-    pass
+    return set()
 
 
 def add_to_open(vn, open_set):
-    pass
+    open_set.add(vn)
 
 
 def open_not_empty(open_set):
-    pass
+    return len(open_set) > 0
 
 
 def get_best(open_set):
-    pass
+    return min(open_set, key=lambda node: node.f)
 
 
 def add_to_closed(vn, closed_set):
-    pass
+    closed_set.add(vn)
 
 #returns False if curr_neighbor state not in open_set or has a lower g from the node in open_set
 #remove the node with the higher g from open_set (if exists)
 def duplicate_in_open(vn, open_set):
-    pass
+    for node in open_set:
+        if node.state == vn.state:
+            if node.g <= vn.g:
+                return True
+            else:
+                open_set.remove(node)
+                return False
+    return False
+    
 
 #returns False if curr_neighbor state not in closed_set or has a lower g from the node in closed_set
 #remove the node with the higher g from closed_set (if exists)
 def duplicate_in_closed(vn, closed_set):
-    pass
+    for node in closed_set:
+        if node.state == vn.state:
+            if node.g <= vn.g:
+                return True
+            else:
+                closed_set.remove(node)
+                return False
+    return False
 
 
 # helps to debug sometimes..
@@ -53,7 +68,7 @@ def search(start_state, heuristic):
     while open_not_empty(open_set):
 
         current = get_best(open_set)
-
+        open_set.remove(current)
         if color_blocks_state.is_goal_state(current.state):
             path = []
             while current:
@@ -63,7 +78,8 @@ def search(start_state, heuristic):
             return path
 
         add_to_closed(current, closed_set)
-
+        # print(f"open_set: {[str(node) for node in open_set]}")
+        # print(f"closed_set: {[str(node) for node in closed_set]}")
         for neighbor, edge_cost in current.get_neighbors():
             curr_neighbor = search_node(neighbor, current.g + edge_cost, heuristic(neighbor), current)
             if not duplicate_in_open(curr_neighbor, open_set) and not duplicate_in_closed(curr_neighbor, closed_set):

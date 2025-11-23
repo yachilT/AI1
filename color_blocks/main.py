@@ -17,3 +17,7 @@ if __name__ == '__main__':
     print(end_time)
     # solution cost
     print(search_result[-1].g)
+    
+    for node in search_result:
+        print(node.state.get_state_str())
+        

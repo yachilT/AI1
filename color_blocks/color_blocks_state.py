@@ -18,12 +18,13 @@ class color_blocks_state:
     
     @staticmethod
     def is_goal_state(_color_blocks_state):
-        return all(_color_blocks_state.block_states[i][0] == color_blocks_state.global_goal_blocks[i] for i in range(len(color_blocks_state.global_goal_blocks)))
+        return all(_color_blocks_state.blocks_states[i][0] == color_blocks_state.global_goal_blocks[i] for i in range(len(color_blocks_state.global_goal_blocks)))
 
     def flip(self, start_index):
         state = self.clone()
         state.blocks_states = state.blocks_states[:start_index] + state.blocks_states[start_index:][::-1]
         return state
+    
     def spin(self, block_index):
         state = self.clone()
         block = state.blocks_states[block_index]
@@ -31,18 +32,22 @@ class color_blocks_state:
         return state
     
     def get_neighbors(self):
+        # return list of (neighbor_state, edge_cost) pairs
         neighbors = []
         blocks_count = len(self.blocks_states)
         for i in range(blocks_count):
             neighbors.append(self.spin(i))
         for i in range(blocks_count - 1):
             neighbors.append(self.flip(i))
-        return neighbors
+        return zip(neighbors, [1] * len(neighbors))
         
     # for debugging states
     def get_state_str(self):
         return ",".join(map(lambda s: f"({s[0]},{s[1]})", self.blocks_states))
 
-
+    def __hash__(self):
+        return hash(self.get_state_str())
+    def __eq__(self, other):
+        return self.get_state_str() == other.get_state_str()
 
     #you can add helper functions

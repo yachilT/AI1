@@ -1,4 +1,4 @@
-from color_blocks_state import color_blocks_state, init_goal_for_search
+from color_blocks_state import color_blocks_state
 
 # you can add helper functions and params
 global_goal_blocks = None
