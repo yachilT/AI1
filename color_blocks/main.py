@@ -9,9 +9,9 @@ if __name__ == '__main__':
     goal_blocks = "2,22,4,3"
     init_goal_for_heuristics(goal_blocks)
     init_goal_for_search(goal_blocks)
-    start_state = color_blocks_state(start_blocks)
+    start_state = color_blocks_state(blocks_str=start_blocks)
     start_time = time.time()
-    search_result = search(start_state, base_heuristic)
+    search_result = search(start_state, advanced_heuristic)
     end_time = time.time() - start_time
     # runtime
     print(end_time)

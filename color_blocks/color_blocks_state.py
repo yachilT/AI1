@@ -8,13 +8,17 @@ class color_blocks_state:
     global_goal_blocks = None
     
     
-    def __init__(self, blocks_str, **kwargs):
+    def __init__(self, blocks_str=None, blocks_list=None, **kwargs):
         # you can use the init function for several purposes
-        self.blocks_states = list(map(lambda s: tuple(map(int, s.split(','))), blocks_str[1:-1].split("),(")))
+        if blocks_str:
+            self.blocks_states = list(map(lambda s: tuple(map(int, s.split(','))), blocks_str[1:-1].split("),(")))
+        
+        if blocks_list:
+            self.blocks_states = blocks_list
 
 
     def clone(self):
-        return color_blocks_state(self.get_state_str())
+        return color_blocks_state(blocks_list=self.blocks_states.copy())
     
     @staticmethod
     def is_goal_state(_color_blocks_state):
@@ -48,6 +52,6 @@ class color_blocks_state:
     def __hash__(self):
         return hash(self.get_state_str())
     def __eq__(self, other):
-        return self.get_state_str() == other.get_state_str()
+        return all(c[0] == o[0] and c[0] == o[0] for c, o in zip(self.blocks_states, other.blocks_states))
 
     #you can add helper functions
